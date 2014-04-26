@@ -1,0 +1,999 @@
+GPSD-MIB DEFINITIONS ::= BEGIN
+
+--
+--
+--
+
+IMPORTS
+    MODULE-IDENTITY, OBJECT-TYPE, 
+    experimental, Integer32, Unsigned32
+    FROM SNMPv2-SMI
+
+    MODULE-COMPLIANCE, OBJECT-GROUP
+    FROM SNMPv2-CONF
+
+    TEXTUAL-CONVENTION, 
+    DisplayString, TruthValue 
+    FROM SNMPv2-TC
+    ;
+
+--
+-- MODULE-IDENTITY
+--
+gpsdMib MODULE-IDENTITY
+    LAST-UPDATED    "201404250854Z"
+    ORGANIZATION    "TODO"
+    CONTACT-INFO    "Markus Juenemann <markus@juenemann.net>"
+    DESCRIPTION     "TODO"
+    REVISION        "201404250854Z"
+    DESCRIPTION     "First revision"
+    ::= { experimental 2947 }
+
+gpsdMibObjects OBJECT IDENTIFIER ::= { gpsdMib 1 }
+gpsdNotifications OBJECT IDENTIFIER ::= { gpsdMibObjects 0 }
+gpsdObjects OBJECT IDENTIFIER ::= { gpsdMibObjects 1 }
+gpsdGroups OBJECT IDENTIFIER ::= { gpsdMibObjects 2 }
+gpsdCompliance OBJECT IDENTIFIER ::= { gpsdMibObjects 3 }
+
+--
+-- TEXTUAL-CONVENTIONS
+--
+GpsdFixModeTC ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Mode of fix"
+    SYNTAX         INTEGER {
+                       notseen(0),
+                       nofix(1),
+                       mode2d(2),
+                       mode3d(3)
+                   }
+
+GpsdStatusTC ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Do we have a fix?"
+    SYNTAX         INTEGER {
+                       nofix(0),
+                       fix(1),
+                       dgpsfix(2)
+                   }
+
+GpsdFloatTC ::= TEXTUAL-CONVENTION
+    DISPLAY-HINT   "d-8"
+    STATUS         current
+    DESCRIPTION    "Textual convention for floating point
+                    numbers in gpsd."
+    SYNTAX         Integer32
+
+GpsdSatelliteIndex ::= TEXTUAL-CONVENTION
+    DISPLAY-HINT   "d"
+    STATUS         current
+    DESCRIPTION    "Index into gpsdSatellitesTablei."
+    SYNTAX         INTEGER(1..72)
+
+GpsdParityTC ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "RS232 parity."
+    SYNTAX         INTEGER {
+                       no(1),
+                       odd(2),
+                       even(3)
+                   }
+
+--
+-- NOTIFICATIONS
+--
+-- Currently there are no notifications defined
+--
+
+
+--
+-- gps_data_t.set
+--
+gpsdSet OBJECT IDENTIFIER ::= { gpsdObjects 1 }
+
+gpsdOnlineSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 1 }
+
+gpsdTimeSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 2 }
+
+gpsdTimerrSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 3 }
+
+gpsdLatLonSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 4 }
+
+gpsdAltitudeSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 5 }
+
+gpsdSpeedSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 6 }
+
+gpsdTrackSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 7 }
+
+gpsdClimbSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 8 }
+
+gpsdStatusSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 9 }
+
+gpsdModeSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 10 }
+
+gpsdDopSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 11 }
+
+gpsdHerrSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 12 }
+
+gpsdVerrSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 13 }
+
+gpsdAttitudeSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 14 }
+
+gpsdSatelliteSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 15 }
+
+gpsdSpeederrSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 16 }
+
+gpsdTrackerrSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 17 }
+
+gpsdClimberrSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 18 }
+
+gpsdDeviceSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 19 }
+
+gpsdDevicelistSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 20 }
+
+gpsdDeviceidSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 21 }
+
+gpsdRtcm2Set OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 22 }
+
+gpsdRtcm3Set OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 23 }
+
+gpsdAisSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 24 }
+
+gpsdPacketSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 25 }
+
+gpsdSubframeSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 26 }
+
+gpsdGstSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 27 }
+
+gpsdVersionSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 28 }
+
+gpsdPolicySet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 29 }
+
+gpsdLogmessageSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 30 }
+
+gpsdErrorSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 31 }
+
+gpsdTimedriftSet OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 32 }
+
+gpsdSetHighbit OBJECT-TYPE 
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdSet 33 }
+
+--
+--  gps_data_t.online
+--
+gpsdOnline OBJECT-TYPE
+    SYNTAX         Unsigned32
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Non-zero if GPS is on line, gpsd clears this time
+                    when sentences fail to show up within the GPS's
+                    normal (???)"
+    ::= { gpsdObjects 2 }
+
+
+--
+--  gps_data_t.gps_fd
+--
+gpsdFd OBJECT-TYPE
+    SYNTAX         Integer32
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "(-1) socket or file descriptor to GPS"
+    ::= { gpsdObjects 3 }
+
+
+--
+--  gps_data_t.fix
+--
+gpsdFix OBJECT IDENTIFIER ::= { gpsdObjects 4 }
+
+--
+--  gps_data_t.fix.time
+--
+gpsdFixTime OBJECT-TYPE
+    SYNTAX         Unsigned32
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Time of update"
+    ::= { gpsdFix 1 }
+
+--
+--  gps_data_t.fix.mode
+--
+gpsdFixMode OBJECT-TYPE
+    SYNTAX         GpsdFixModeTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdFix 2 }
+
+--
+--  gps_data_t.fix.ept
+--
+gpsdFixEpt OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Expected time uncertainty."
+    ::= { gpsdFix 3 }
+
+--
+--  gps_data_t.fix.latitude
+--
+gpsdFixLatitude OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "degrees"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Latitude (valid if gpsdFixMode >= 2)."
+    ::= { gpsdFix 4 }
+
+--
+--  gps_data_t.fix.epy
+--
+gpsdFixEpy OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Latitude position uncertainty."
+    ::= { gpsdFix 5 }
+
+--
+--  gps_data_t.fix.longitude
+--
+gpsdFixLongitude OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "degrees"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Longitude (valid if gpsdFixMode >= 2)."
+    ::= { gpsdFix 6 }
+
+--
+--  gps_data_t.fix.epx
+--
+gpsdFixEpx OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Longitude position uncertainty."
+    ::= { gpsdFix 7 }
+
+--
+--  gps_data_t.fix.altitude
+--
+gpsdFixAltitude OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Altitude (valid if gpsFixMode == 3)."
+    ::= { gpsdFix 8 }
+
+--
+--  gps_data_t.fix.epv
+--
+gpsdFixEpv OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Vertical position uncertainty."
+    ::= { gpsdFix 9 }
+
+--
+--  gps_data_t.fix.track
+--
+gpsdFixTrack OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "degrees"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Course made good (relative to true north)."
+    ::= { gpsdFix 10 }
+
+--
+--  gps_data_t.fix.epd
+--
+gpsdFixEpd OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "degrees"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Track uncertainty."
+    ::= { gpsdFix 11 }
+
+--
+--  gps_data_t.fix.speed
+--
+gpsdFixSpeed OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters/sec"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Speed over ground."
+    ::= { gpsdFix 12 }
+
+--
+--  gps_data_t.fix.eps
+--
+gpsdFixEps OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters/sec"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Speed uncertainty."
+    ::= { gpsdFix 13 }
+
+--
+--  gps_data_t.fix.climb
+--
+gpsdFixClimb OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters/sec"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Vertical speed."
+    ::= { gpsdFix 14 }
+
+--
+--  gps_data_t.fix.epc
+--
+gpsdFixEpc OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters/sec"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Vertical speed uncertainty."
+    ::= { gpsdFix 15 }
+
+--
+--  gps_data_t.separation
+--
+gpsdSeparation OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Geoidal separation, MSL - WGS84"
+    ::= { gpsdObjects 5 }
+
+--
+--  gps_data_t.status
+--
+gpsdStatus OBJECT-TYPE
+    SYNTAX         GpsdStatusTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Do we have a fix?"
+    ::= { gpsdObjects 6 }
+
+--
+--  gps_data_t.satellites_used
+--
+gpsdSatellitesUsed OBJECT-TYPE
+    SYNTAX         Integer32(0..72)
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Number of satellites used in solution."
+    ::= { gpsdObjects 7 }
+
+--
+--  gps_data_t.satellites_visible
+--
+gpsdSatellitesVisible OBJECT-TYPE
+    SYNTAX         Integer32(0..72)
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Number of visible satellites."
+    ::= { gpsdObjects 8 }
+
+--
+-- gps_data.epe
+--
+gpsdEpe OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "meters"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Spherical position error, 95% confidence."
+    ::= { gpsdObjects 9 }
+
+--
+--  gps_data_t.skyview_time
+--
+gpsdSkyviewTime OBJECT-TYPE
+    SYNTAX         Unsigned32
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Skyview timestamp."
+    ::= { gpsdObjects 10 }
+
+--
+-- gps_data_t.dop
+--
+gpsdDop OBJECT IDENTIFIER ::= { gpsdObjects 11 }
+
+--
+-- gps_data.dop.xdop
+--
+gpsdXdop OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Cross-track dilution of precision along the x-axis."
+    ::= { gpsdDop 1 }
+
+--
+-- gps_data.dop.ydop
+--
+gpsdYdop OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Cross-track dilution of precision along the y-axis."
+    ::= { gpsdDop 2 }
+
+--
+-- gps_data.dop.pdop
+--
+gpsdPdop OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Positional (3D) dilution of precision."
+    ::= { gpsdDop 3 }
+
+--
+-- gps_data.dop.hdop
+--
+gpsdHdop OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Horizontal dilution of precision."
+    ::= { gpsdDop 4 }
+
+--
+-- gps_data.dop.vdop
+--
+gpsdVdop OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Vertical dilution of precision."
+    ::= { gpsdDop 5 }
+
+--
+-- gps_data.dop.tdop
+--
+gpsdTdop OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Time dilution of precision."
+    ::= { gpsdDop 6 }
+
+--
+-- gps_data.dop.gdop
+--
+gpsdGdop OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Geometric dilution of precision."
+    ::= { gpsdDop 7 }
+
+
+--
+-- Satellites
+--
+gpsdSatellitesTable OBJECT-TYPE
+    SYNTAX         SEQUENCE OF GpsdSatellitesEntry
+    MAX-ACCESS     not-accessible
+    STATUS         current
+    DESCRIPTION    "Table with information about satellites."
+    ::= { gpsdObjects 12 }
+
+gpsdSatellitesEntry OBJECT-TYPE
+    SYNTAX         GpsdSatellitesEntry
+    MAX-ACCESS     not-accessible
+    STATUS         current
+    DESCRIPTION    "Entry in the table with information 
+                    about satellites."
+    INDEX          { gpsdSatelliteIndex }
+    ::= { gpsdSatellitesTable 1 }
+
+GpsdSatellitesEntry ::= 
+    SEQUENCE {
+        gpsdSatelliteIndex      GpsdSatelliteIndex,
+	gpsdSatellitePrn        Unsigned32,
+        gpsdSatelliteElevation  Integer32,
+        gpsdSatelliteAzimuth    Integer32,
+        gpsdSatelliteSnr        Integer32,
+        gpsdSatelliteUsed       TruthValue
+    }
+
+gpsdSatelliteIndex OBJECT-TYPE
+    SYNTAX         GpsdSatelliteIndex
+    MAX-ACCESS     not-accessible
+    STATUS         current
+    DESCRIPTION    "Index into gpsdSatellitesTable."
+    ::= { gpsdSatellitesEntry 1 }
+
+--
+-- gps_data_t.PRN[x]
+--
+gpsdSatellitePrn OBJECT-TYPE
+    SYNTAX         Unsigned32
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "PRN of satellite."
+    ::= { gpsdSatellitesEntry 2 }
+
+--
+-- gps_data_t.elevation[x]
+--
+gpsdSatelliteElevation OBJECT-TYPE
+    SYNTAX         Integer32
+    UNITS          "degrees"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Elevation of the satellite."
+    ::= { gpsdSatellitesEntry 3 }
+
+--
+-- gps_data_t.azimuth[x]
+--
+gpsdSatelliteAzimuth OBJECT-TYPE
+    SYNTAX         Integer32
+    UNITS          "degrees"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Azimuth of the satellite."
+    ::= { gpsdSatellitesEntry 4 }
+
+--
+-- gps_data_t.ss[x]
+--
+gpsdSatelliteSnr OBJECT-TYPE
+    SYNTAX         Integer32
+    UNITS          "dB"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Signal-to-noise ratio"
+    ::= { gpsdSatellitesEntry 5 }
+
+--
+-- gps_data_t.used[y]
+--
+gpsdSatelliteUsed OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Whether this satellite was used for
+                    the solution."
+    ::= { gpsdSatellitesEntry 6 }
+
+
+--
+-- gps_data_t.devconfig
+--
+gpsdDevconfig OBJECT IDENTIFIER ::= { gpsdObjects 13 }
+
+--
+-- gps_data_t.devconfig.path
+--
+gpsdPath OBJECT-TYPE
+    SYNTAX         OCTET STRING(SIZE(0..1024))
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 1 }
+
+--
+-- gps_data_t.devconfig.flags
+--
+gpsdSeenGps OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 2 }
+
+gpsdSeenRtcm2 OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 3 }
+
+gpsdSeenRtcm3 OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 4 }
+
+gpsdSeenAis OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 5 }
+
+--
+-- gps_data_t.devconfig.driver
+--
+gpsdDriver OBJECT-TYPE
+    SYNTAX         DisplayString
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 6 }
+
+--
+-- gps_data_t.devconfig.subtype
+--
+gpsdSubtype OBJECT-TYPE
+    SYNTAX         DisplayString
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 7 }
+
+--
+-- gps_data_t.devconfig.activated
+--
+gpsdActivated OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 8 }
+
+--
+-- gps_data_t.devconfig.baudrate
+--
+gpsdBaudrate OBJECT-TYPE
+    SYNTAX         Unsigned32
+    UNITS          "baud"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 9 }
+
+--
+-- gps_data_t.devconfig.stopbits
+--
+gpsdStopbits OBJECT-TYPE
+    SYNTAX         Unsigned32
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 10 }
+
+--
+-- gps_data_t.devconfig.parity
+--
+gpsdParity OBJECT-TYPE
+    SYNTAX         GpsdParityTC
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    ""
+    ::= { gpsdDevconfig 11 }
+
+--
+-- gps_data_t.devconfig.cycle
+--
+gpsdCycle OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "seconds"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Refresh cycle time."
+    ::= { gpsdDevconfig 12 }
+
+--
+-- gps_data_t.devconfig.mincycle
+--
+gpsdMincycle OBJECT-TYPE
+    SYNTAX         GpsdFloatTC
+    UNITS          "seconds"
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Minimal refresh cycle time."
+    ::= { gpsdDevconfig 13 }
+
+
+--
+-- gps_data_t.policy
+--
+gpsdPolicy OBJECT IDENTIFIER ::= { gpsdObjects 14 }
+
+--
+-- gps_data_t.policy.watcher
+--
+gpsdPolicyWatcher OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Is watcher mode on?"
+    ::= { gpsdPolicy 1 }
+
+--
+-- gps_data_t.policy.json
+--
+gpsdPolicyJson OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Requesting JSON?"
+    ::= { gpsdPolicy 2 }
+
+--
+-- gps_data_t.policy.nmea
+--
+gpsdPolicyNmea OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Requesting NMEA?"
+    ::= { gpsdPolicy 3 }
+
+--
+-- gps_data_t.policy.raw
+--
+gpsdPolicyRaw OBJECT-TYPE
+    SYNTAX         Integer32	--TODO enum
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Requesting raw data?"
+    ::= { gpsdPolicy 4 }
+
+--
+-- gps_data_t.policy.scaled
+--
+gpsdPolicyScaled OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Requesting report scaling?"
+    ::= { gpsdPolicy 5 }
+
+--
+-- gps_data_t.policy.timing
+--
+gpsdPolicyTiming OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Requesting timing info?"
+    ::= { gpsdPolicy 6 }
+
+--
+-- gps_data_t.policy.split24
+--
+gpsdPolicySplit24 OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Requesting split AIS Type 24s?"
+    ::= { gpsdPolicy 7 }
+
+--
+-- gps_data_t.policy.pps
+--
+gpsdPolicyPps OBJECT-TYPE
+    SYNTAX         TruthValue
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Requesting PPS in NMEA/raw modes?"
+    ::= { gpsdPolicy 8 }
+
+--
+-- gps_data_t.policy.loglevel
+--
+gpsdPolicyLoglevel OBJECT-TYPE
+    SYNTAX         Integer32	--TODO enum
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Requested log level of messages."
+    ::= { gpsdPolicy 9 }
+
+--
+-- gps_data_t.policy.devpath
+--
+gpsdPolicyDevpath OBJECT-TYPE
+    SYNTAX         OCTET STRING(SIZE(0..1024))
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Specific device to watch."
+    ::= { gpsdPolicy 10 }
+
+--
+-- gps_data_t.policy.remote
+--
+gpsdPolicyRemote OBJECT-TYPE
+    SYNTAX         OCTET STRING(SIZE(0..1024))
+    MAX-ACCESS     read-only
+    STATUS         current
+    DESCRIPTION    "Specific device to watch if this was passthrough."
+    ::= { gpsdPolicy 11 }
+
+--
+-- Skip the union
+--
+
+
+
+
+
+
+END
