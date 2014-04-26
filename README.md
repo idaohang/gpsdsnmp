@@ -20,7 +20,9 @@ The structure of GPSD-MIB follows closely the structure
 *gpsd* defined for the shared memory segment. Almost all
 data of the shared memory is available through SNMP. 
 
-
+Currently the MIB is registered under the 'experimental'
+branch. In the future this will be relocated to a more
+appropriate branch under 'enterprises'.
 
 gpsdsnmp
 --------

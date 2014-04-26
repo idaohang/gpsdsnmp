@@ -11,6 +11,7 @@ IMPORTS
 
     MODULE-COMPLIANCE, OBJECT-GROUP
     FROM SNMPv2-CONF
+--    NOTIFICATION-GROUP
 
     TEXTUAL-CONVENTION, 
     DisplayString, TruthValue 
@@ -64,11 +65,11 @@ GpsdFloatTC ::= TEXTUAL-CONVENTION
                     numbers in gpsd."
     SYNTAX         Integer32
 
-GpsdSatelliteIndex ::= TEXTUAL-CONVENTION
+GpsdSatelliteIndexTC ::= TEXTUAL-CONVENTION
     DISPLAY-HINT   "d"
     STATUS         current
     DESCRIPTION    "Index into gpsdSatellitesTablei."
-    SYNTAX         INTEGER(1..72)
+    SYNTAX         Integer32(1..72)
 
 GpsdParityTC ::= TEXTUAL-CONVENTION
     STATUS         current
@@ -89,238 +90,46 @@ GpsdParityTC ::= TEXTUAL-CONVENTION
 --
 -- gps_data_t.set
 --
-gpsdSet OBJECT IDENTIFIER ::= { gpsdObjects 1 }
-
-gpsdOnlineSet OBJECT-TYPE 
-    SYNTAX         TruthValue
+gpsdSet OBJECT-TYPE
+    SYNTAX         BITS {
+                       gpsdOnlineSet(0),
+                       gpsdTimeSet(1),
+                       gpsdTimerrSet(2),
+                       gpsdLatLonSet(3),
+                       gpsdAltitudeSet(4),
+                       gpsdSpeedSet(5),
+                       gpsdTrackSet(6),
+                       gpsdClimbSet(7),
+                       gpsdStatusSet(8),
+                       gpsdModeSet(9),
+                       gpsdDopSet(10),
+                       gpsdHerrSet(11),
+                       gpsdVerrSet(12),
+                       gpsdAttitudeSet(13),
+                       gpsdSatelliteSet(14),
+                       gpsdSpeederrSet(15),
+                       gpsdTrackerrSet(16),
+                       gpsdClimberrSet(17),
+                       gpsdDeviceSet(18),
+                       gpsdDevicelistSet(19),
+                       gpsdDeviceidSet(20),
+                       gpsdRtcm2Set(21),
+                       gpsdRtcm3Set(22),
+                       gpsdAisSet(23),
+                       gpsdPacketSet(24),
+                       gpsdSubframeSet(25),
+                       gpsdGstSet(26),
+                       gpsdVersionSet(27),
+                       gpsdPolicySet(28),
+                       gpsdLogmessageSet(29),
+                       gpsdErrorSet(30),
+                       gpsdTimedriftSet(31),
+                       gpsdSetHighbit(32)
+                   }
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 1 }
-
-gpsdTimeSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 2 }
-
-gpsdTimerrSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 3 }
-
-gpsdLatLonSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 4 }
-
-gpsdAltitudeSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 5 }
-
-gpsdSpeedSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 6 }
-
-gpsdTrackSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 7 }
-
-gpsdClimbSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 8 }
-
-gpsdStatusSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 9 }
-
-gpsdModeSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 10 }
-
-gpsdDopSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 11 }
-
-gpsdHerrSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 12 }
-
-gpsdVerrSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 13 }
-
-gpsdAttitudeSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 14 }
-
-gpsdSatelliteSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 15 }
-
-gpsdSpeederrSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 16 }
-
-gpsdTrackerrSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 17 }
-
-gpsdClimberrSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 18 }
-
-gpsdDeviceSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 19 }
-
-gpsdDevicelistSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 20 }
-
-gpsdDeviceidSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 21 }
-
-gpsdRtcm2Set OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 22 }
-
-gpsdRtcm3Set OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 23 }
-
-gpsdAisSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 24 }
-
-gpsdPacketSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 25 }
-
-gpsdSubframeSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 26 }
-
-gpsdGstSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 27 }
-
-gpsdVersionSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 28 }
-
-gpsdPolicySet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 29 }
-
-gpsdLogmessageSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 30 }
-
-gpsdErrorSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 31 }
-
-gpsdTimedriftSet OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 32 }
-
-gpsdSetHighbit OBJECT-TYPE 
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdSet 33 }
+    DESCRIPTION    "Has field been set since this was last cleared?"
+    ::= { gpsdObjects 1 }
 
 --
 --  gps_data_t.online
@@ -368,7 +177,7 @@ gpsdFixMode OBJECT-TYPE
     SYNTAX         GpsdFixModeTC
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
+    DESCRIPTION    "Mode of the fix."
     ::= { gpsdFix 2 }
 
 --
@@ -672,7 +481,7 @@ gpsdSatellitesEntry OBJECT-TYPE
 
 GpsdSatellitesEntry ::= 
     SEQUENCE {
-        gpsdSatelliteIndex      GpsdSatelliteIndex,
+        gpsdSatelliteIndex      GpsdSatelliteIndexTC,
 	gpsdSatellitePrn        Unsigned32,
         gpsdSatelliteElevation  Integer32,
         gpsdSatelliteAzimuth    Integer32,
@@ -681,7 +490,7 @@ GpsdSatellitesEntry ::=
     }
 
 gpsdSatelliteIndex OBJECT-TYPE
-    SYNTAX         GpsdSatelliteIndex
+    SYNTAX         GpsdSatelliteIndexTC
     MAX-ACCESS     not-accessible
     STATUS         current
     DESCRIPTION    "Index into gpsdSatellitesTable."
@@ -750,126 +559,115 @@ gpsdDevconfig OBJECT IDENTIFIER ::= { gpsdObjects 13 }
 --
 -- gps_data_t.devconfig.path
 --
-gpsdPath OBJECT-TYPE
+gpsdDevconfigPath OBJECT-TYPE
     SYNTAX         OCTET STRING(SIZE(0..1024))
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
+    DESCRIPTION    "Device that shipped last update. If multiple
+                    GPS devices are attached this object, and
+                    all others under gpsdDevconfig, will contain
+                    values seemingly randomly from any one of 
+                    them. This is not a table holding data for
+                    all devices."
     ::= { gpsdDevconfig 1 }
 
 --
 -- gps_data_t.devconfig.flags
 --
-gpsdSeenGps OBJECT-TYPE
-    SYNTAX         TruthValue
+gpsdDevconfigFlags OBJECT-TYPE
+    SYNTAX         BITS {
+                       gpsdSeenGps(0),
+                       gpsdSeenRtcm2(1),
+                       gpsdSeenRtcm3(2),
+                       gpsdSeenAis(3)
+                   }
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
+    DESCRIPTION    "Flags."
     ::= { gpsdDevconfig 2 }
-
-gpsdSeenRtcm2 OBJECT-TYPE
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdDevconfig 3 }
-
-gpsdSeenRtcm3 OBJECT-TYPE
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdDevconfig 4 }
-
-gpsdSeenAis OBJECT-TYPE
-    SYNTAX         TruthValue
-    MAX-ACCESS     read-only
-    STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdDevconfig 5 }
 
 --
 -- gps_data_t.devconfig.driver
 --
-gpsdDriver OBJECT-TYPE
+gpsdDevconfigDriver OBJECT-TYPE
     SYNTAX         DisplayString
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdDevconfig 6 }
+    DESCRIPTION    "Name of the device driver."
+    ::= { gpsdDevconfig 3 }
 
 --
 -- gps_data_t.devconfig.subtype
 --
-gpsdSubtype OBJECT-TYPE
+gpsdDevconfigSubtype OBJECT-TYPE
     SYNTAX         DisplayString
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdDevconfig 7 }
+    DESCRIPTION    "Device subtype."
+    ::= { gpsdDevconfig 4 }
 
 --
 -- gps_data_t.devconfig.activated
 --
-gpsdActivated OBJECT-TYPE
+gpsdDevconfigActivated OBJECT-TYPE
     SYNTAX         GpsdFloatTC
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdDevconfig 8 }
+    DESCRIPTION    "When was this devicee activated?"
+    ::= { gpsdDevconfig 5 }
 
 --
 -- gps_data_t.devconfig.baudrate
 --
-gpsdBaudrate OBJECT-TYPE
+gpsdDevconfigBaudrate OBJECT-TYPE
     SYNTAX         Unsigned32
     UNITS          "baud"
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdDevconfig 9 }
+    DESCRIPTION    "Serial baud rate of device (if applicable)"
+    ::= { gpsdDevconfig 6 }
 
 --
 -- gps_data_t.devconfig.stopbits
 --
-gpsdStopbits OBJECT-TYPE
+gpsdDevconfigStopbits OBJECT-TYPE
     SYNTAX         Unsigned32
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdDevconfig 10 }
+    DESCRIPTION    "Serial stopbits of device (if applicable)."
+    ::= { gpsdDevconfig 7 }
 
 --
 -- gps_data_t.devconfig.parity
 --
-gpsdParity OBJECT-TYPE
+gpsdDevconfigParity OBJECT-TYPE
     SYNTAX         GpsdParityTC
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    ""
-    ::= { gpsdDevconfig 11 }
+    DESCRIPTION    "Serial parity of device (if applicable)."
+    ::= { gpsdDevconfig 8 }
 
 --
 -- gps_data_t.devconfig.cycle
 --
-gpsdCycle OBJECT-TYPE
+gpsdDevconfigCycle OBJECT-TYPE
     SYNTAX         GpsdFloatTC
     UNITS          "seconds"
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    "Refresh cycle time."
-    ::= { gpsdDevconfig 12 }
+    DESCRIPTION    "Refresh cycle time of device."
+    ::= { gpsdDevconfig 9 }
 
 --
 -- gps_data_t.devconfig.mincycle
 --
-gpsdMincycle OBJECT-TYPE
+gpsdDevconfigMincycle OBJECT-TYPE
     SYNTAX         GpsdFloatTC
     UNITS          "seconds"
     MAX-ACCESS     read-only
     STATUS         current
-    DESCRIPTION    "Minimal refresh cycle time."
-    ::= { gpsdDevconfig 13 }
+    DESCRIPTION    "Minimal refresh cycle time of device."
+    ::= { gpsdDevconfig 10 }
 
 
 --
@@ -988,12 +786,96 @@ gpsdPolicyRemote OBJECT-TYPE
     ::= { gpsdPolicy 11 }
 
 --
--- Skip the union
+-- Skip the union and privdata at the end of gps_data_t
 --
 
+--
+-- OBJECT-GROUP
+--
+gpsdObjectsGroup OBJECT-GROUP
+    OBJECTS {
+        gpsdSet,
+        gpsdOnline,
+        gpsdFd,
+        gpsdFixTime,
+        gpsdFixMode,
+        gpsdFixEpt,
+        gpsdFixLatitude,
+        gpsdFixEpy,
+        gpsdFixLongitude,
+        gpsdFixEpx,
+        gpsdFixAltitude,
+        gpsdFixEpv,
+        gpsdFixTrack,
+        gpsdFixEpd,
+        gpsdFixSpeed,
+        gpsdFixEps,
+        gpsdFixClimb,
+        gpsdFixEpc,
+        gpsdSeparation,
+        gpsdStatus,
+        gpsdSatellitesUsed,
+        gpsdSatellitesVisible,
+        gpsdEpe,
+        gpsdSkyviewTime,
+        gpsdXdop,
+        gpsdYdop,
+        gpsdPdop,
+        gpsdHdop,
+        gpsdVdop,
+        gpsdTdop,
+        gpsdGdop,
+        gpsdSatellitePrn,
+        gpsdSatelliteElevation,
+        gpsdSatelliteAzimuth,
+        gpsdSatelliteSnr,
+        gpsdSatelliteUsed,
+        gpsdDevconfigPath,
+        gpsdDevconfigFlags,
+        gpsdDevconfigDriver,
+        gpsdDevconfigSubtype,
+        gpsdDevconfigActivated,
+        gpsdDevconfigBaudrate,
+        gpsdDevconfigStopbits,
+        gpsdDevconfigParity,
+        gpsdDevconfigCycle,
+        gpsdDevconfigMincycle,
+        gpsdPolicyWatcher,
+        gpsdPolicyJson,
+        gpsdPolicyNmea,
+        gpsdPolicyRaw,
+        gpsdPolicyScaled,
+        gpsdPolicyTiming,
+        gpsdPolicySplit24,
+        gpsdPolicyPps,
+        gpsdPolicyLoglevel,
+        gpsdPolicyDevpath,
+        gpsdPolicyRemote
+        }
+    STATUS         current
+    DESCRIPTION    "The object-group for this MIB."
+    ::= { gpsdGroups 1 }
 
+--
+-- NOTIFICATION-GROUP
+--
+--gpsdNotoficationsGroup NOTIFICATION-GROUP
+--    NOTIFICATIONS  { }
+--    STATUS         current
+--    DESCRIPTION    "The notification-group for this MIB."
+--    ::= { gpsdGroups 2 }
 
-
+--
+-- MODULE-COMPLIANCE
+--
+gpsdCompliances MODULE-COMPLIANCE
+    STATUS         current
+    DESCRIPTION    "The module-compliance for this MIB."
+    MODULE MANDATORY-GROUPS {
+        gpsdObjectsGroup
+    }
+    ::= { gpsdCompliance 1 }
+    
 
 
 END
